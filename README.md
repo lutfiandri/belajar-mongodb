@@ -161,6 +161,81 @@ db.createCollection('orders');
 
 ### Struktur Document - Embedded
 ![struktur document - embedded](img/data-model-1.png)
+- Saat dokumen memiliki ketergantungan tinggi 
+- Misal setiap panggil `username` pasti selalu membutuhkan `contact` dan `access`
+- Diusahakan memakai `embedded document`, jika terpaksa maka baru `reference document`
 
 ### Struktur Document - Reference
 ![struktur document - reference](img/data-model-2.png)
+- Saat dokumen tidak terlalu memiliki ketergantungan tinggi satu sama lain
+- Misal setiap panggil `username`, sangat jarang membutuhkan `contact` dan `access`
+
+
+## Insert Document
+
+### Syntax
+- `db.<collection>.insertOne(document)`
+- `db.<collection>.insertMany(array<document>)`
+- `db.<collection>.insert(array/document)`
+
+> Lebih baik pakai `insertOne` atau `insertMany` daripada `insert` saja
+
+### Contoh
+```js
+db.orders.insertOne({
+   totalPrice: new NumberLong(8000),
+   items: [
+      {
+         product_id: 1,
+         price: new NumberLong(2000),
+         quantity: new NumberInt(2)
+      },
+      {
+         product_id: 2,
+         price: new NumberLong(4000),
+         quantity: new NumberInt(1)
+      }
+   ]
+
+})
+```
+> **ingat**: tidak ada `_id`, maka akan otomatis dibuatkan oleh mongodb dengan tipe ObjectId()
+
+```js
+db.products.insertMany([
+   {
+      _id: 1,
+      name: "Indomie Goreng",
+      price: new NumberLong(2000)
+   },
+   {
+      _id: 2,
+      name: "Mie Sedap Goyeng",
+      price: new NumberLong(4000)
+   }
+])
+```
+
+## Document Query
+
+`db.<collection>.find(query)`
+
+> **tips**: tambahkan `.pretty()` agar mudah dibaca
+
+`db.<collection>.find(query).pretty()`
+
+### Mengambil data
+- _select * from collection_
+  `db.<collection>.find()`
+- _select * from collection where \_id = 1_
+  `db.<collection>.find(_id: 1)`
+
+### Pengenalan Operator
+
+
+
+### Comparison Operator
+
+
+
+### Logical Operator
