@@ -1,7 +1,6 @@
 # MongoDB Dasar
 Rangkuman belajar dari Channel YouTube Programmer Jaman Now
 
----
 
 ## Pengenalan Mongo DB
 
@@ -54,7 +53,6 @@ Rangkuman belajar dari Channel YouTube Programmer Jaman Now
 }
 ```
 
---- 
 
 ## MongoDB Client
 
@@ -68,7 +66,6 @@ mongo
 ### MongoDB Compass
 DB URI: `mongodb://localhost:27017`
 
----
 
 ## Database
 
@@ -99,15 +96,14 @@ test    0.000GB
 
 Methods ini bisa digunakan setelah memilih database dengan `use <nama_database>`
 
-| Database Methods          | Keterangan                                |
-| ---                       | ---                                       |
-| `db.dropDatabase()`       | Menghapus database                        |
-| `db.getName()`            | Mengambil nama database                   |
-| `db.hostInfo()`           | Mengambil info host MongoDB               |
-| `db.version()`            | Mengambil versi database                  |
-| `db.stats()`              | Mengambil statistik penggunaan database   |
+| Database Methods | Keterangan |
+| --- | --- |
+| `db.dropDatabase()` | Menghapus database |
+| `db.getName()` | Mengambil nama database |
+| `db.hostInfo()` | Mengambil info host MongoDB |
+| `db.version()` | Mengambil versi database |
+| `db.stats()` | Mengambil statistik penggunaan database |
 
----
 
 ## Collection
 
@@ -119,18 +115,18 @@ Methods ini bisa digunakan setelah memilih database dengan `use <nama_database>`
 
 ### Database Methods untuk Collection
 
-| Database Methods untuk Collection     | Keterangan                                |
-| ---                                   | ---                                       |
-| `db.getCollectionNames()`             | Mengambil semua nama collection           |
-| `db.createCollection(<collection>)`   | Membuat collection baru                   |
-| `db.getCollection(<collection>)`      | Mengambil object collection               |
-| `db.<collection>`                     | Sama seperti `db.getCollection(<coll>)`   |
-| `db.getCollectionInfos()`             | Mendapat informasi semua collection       |
-| `db.<collection>.find()`              | Mengambil semua document                  |
-| `db.<collection>.drop()`              | Menghapus collection                      |
-| `db.<collection>.count()`             | Mengambil jumlah document                 |
-| `db.<collection>.totalSize()`         | Mengambil total ukuran collection         |
-| `db.<collection>.stats()`             | Mengambil informasi statistik collection  |
+| Database Methods untuk Collection | Keterangan |
+| --- | --- |
+| `db.getCollectionNames()` | Mengambil semua nama collection |
+| `db.createCollection(<collection>)` | Membuat collection baru |
+| `db.getCollection(<collection>)` | Mengambil object collection |
+| `db.<collection>` | Sama seperti `db.getCollection(<coll>)` |
+| `db.getCollectionInfos()` | Mendapat informasi semua collection |
+| `db.<collection>.find()` | Mengambil semua document |
+| `db.<collection>.drop()` | Menghapus collection |
+| `db.<collection>.count()` | Mengambil jumlah document |
+| `db.<collection>.totalSize()` | Mengambil total ukuran collection |
+| `db.<collection>.stats()` | Mengambil informasi statistik collection |
 
 ### Contoh Penggunaan
 
@@ -145,22 +141,26 @@ db.createCollection('products');
 db.createCollection('orders');
 ```
 
----
-
 ## Data Model
 
-### Pentingnga Data Modeling
+### Pentingnya Data Modeling
 - Pindah dari relational database ke document database bukanlah hal yang sesederhana hanya dengan memindahkan semua table ke collection
 - Penggunaan document database tidak akan mendatangkan manfaat besar jika kita tidak mengerti cara memodelkan data untuk kebutuhan aplikasi kita
 - Saat memodelkan data menggunakan relational database, biasanya kita mengacu ke database normalization 
 
-### Skema yang Flexibel di MongoDB
+### Skema yang Fleksibel di MongoDB
 - Di MongoDB kita bisa memasukkan data ke collection secara langsung tanpa mendefinisikan schema collection-nya.
 - Schema untuk collection di MongoDB sangat flexible, tiap document bisa berbeda. Tidak seperti table di relational database yang harus sama tiap record.
 - Pada prakteknya, **sangat direkomendasikan menggunakan jenis data yang sama** untuk tiap collection, walaupun bisa berbeda-beda di collection yang sama
 
 ### Primary Key di MongoDB
 - Primary key pada MongoDB yakni field `_id`
-- Setiap `dokumen` wajib memiliki `_id`
+- Setiap `document` wajib memiliki `_id`
 - Jika tidak disertakan saat insert data, maka akan dibuatkan otomatis dengan tipe data `objectId()`
 - Setiap `doucment` hanya bisa memiliki 1 primary key
+
+### Struktur Document - Embedded
+![struktur document - embedded](img/data-model-1.png)
+
+### Struktur Document - Reference
+![struktur document - reference](img/data-model-2.png)
