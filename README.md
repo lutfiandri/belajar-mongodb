@@ -182,6 +182,13 @@ db.createCollection('orders');
 
 ### Contoh
 ```js
+db.customers.insertOne({
+   _id: "lutfiandri",
+   name: "Lutfi Andriyanto"
+})
+```
+
+```js
 db.orders.insertOne({
    totalPrice: new NumberLong(8000),
    items: [
@@ -220,9 +227,8 @@ db.products.insertMany([
 
 `db.<collection>.find(query)`
 
-> **tips**: tambahkan `.pretty()` agar mudah dibaca
-
-`db.<collection>.find(query).pretty()`
+> **tips**: tambahkan `.pretty()` agar mudah dibaca\
+> `db.<collection>.find(query).pretty()`
 
 ### Mengambil data
 - _select * from collection_
@@ -230,12 +236,159 @@ db.products.insertMany([
 - _select * from collection where \_id = 1_
   `db.<collection>.find(_id: 1)`
 
-### Pengenalan Operator
-
-
-
 ### Comparison Operator
+|Operator|Keterangan|
+|---|---|
+|`$eq`|sama dengan|
+|`$gt`|lebih besar dari|
+|`$gte`|lebih besar / sama dari|
+|`$lt`|lebih kecil dari|
+|`$lte`|lebih kecil / sama dari|
+|`$in`|ada di dalam array|
+|`$ne`|tidak sama dengan|
+|`$nin`|tidak ada di dalam array|
 
+```js
+db.<collection>.find({
+   field: {
+      $operator: value
+   }
+})
+```
 
+#### Contoh $eq
+
+```js
+db.customers.find({
+   _id: {
+      $eq: "lutfiandri"
+   }
+})
+
+// versi sebelumnya (lebih singkat)
+db.customers.find({
+   _id: "lutfiandri"
+})
+```
+
+#### Contoh $gte
+```js
+db.products.find({
+   price: {
+      $gte: 2000
+   }
+})
+```
+
+#### Contoh $in
+```js
+db.products.insertMany([
+    {
+        _id: 3,
+        name: "Pop Mie Rasa Bakso",
+        price: new NumberLong(2500),
+        category: "food"
+    },
+    {
+        _id: 4,
+        name: "Samsung Galaxy S9+",
+        price: new NumberLong(10000000),
+        category: "handphone"
+    },
+    {
+        _id: 5,
+        name: "Acer Precator XXI",
+        price: new NumberLong(25000000),
+        category: "laptop"
+    }
+])
+
+// ini contoh pemakaiannya
+db.products.find({
+   caterogy: {
+      $in: ["laptop", "handphone"]
+   }
+})
+```
+> Meski field insert document ke products berbeda dari sebelumnya (+category), tapi ini **tidak akan error**.
+>
+> Untuk menunjukkan document yang tidak memiliki field `category`, maka bisa menggunakan tipe data `null`.
+
+```js
+db.products.find({
+   category: null
+})
+```
 
 ### Logical Operator
+|Operator|Keterangan|
+|---|---|
+|$and|Logical **AND**, **true** jika semua **true**|
+|$or|Logical **OR**, **true** jika salah satu **true**|
+|$nor|Logical **NOR**, **true** jika semua **false**|
+|$not|Logical **NOT**, membalikkan keadaan boolean|
+
+#### Contoh `$and`, `$or`, dan `$nor`
+```js
+// syntax
+db.<collection>.find({
+   $operator: [
+      {
+         ...kondisi 1
+      },
+      {
+         ...kondisi 2
+      },
+      ...kondisi seterusnya
+   ]
+})
+```
+
+```js
+db.products.find({
+   $and: [
+      {
+         category: {
+            $in: ["handphone", "laptop"]
+         }
+      },
+      {
+         price: {
+            $gte: 5000000
+         }
+      }
+   ]
+})
+
+// and versi shorthand
+db.products.find({
+   category: {
+      $in: ["handphone", "laptop"]
+   },
+   price: {
+      $gte: 5000000
+   }
+})
+```
+
+#### Contoh `$not`
+```js
+// syntax
+db.<collection>.find({
+   field: {
+      $not: {
+         kondisi
+      }
+   }
+})
+```
+
+```js
+db.products.find({
+   category: {
+      $not: {
+         $in: ["handphone", "laptop"]
+      }
+   }
+})
+```
