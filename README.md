@@ -323,10 +323,10 @@ db.products.find({
 ### Logical Operator
 |Operator|Keterangan|
 |---|---|
-|$and|Logical **AND**, **true** jika semua **true**|
-|$or|Logical **OR**, **true** jika salah satu **true**|
-|$nor|Logical **NOR**, **true** jika semua **false**|
-|$not|Logical **NOT**, membalikkan keadaan boolean|
+|`$and`|Logical **AND**, **true** jika semua **true**|
+|`$or`|Logical **OR**, **true** jika salah satu **true**|
+|`$nor`|Logical **NOR**, **true** jika semua **false**|
+|`$not`|Logical **NOT**, membalikkan keadaan boolean|
 
 #### Contoh `$and`, `$or`, dan `$nor`
 ```js
@@ -389,6 +389,46 @@ db.products.find({
       $not: {
          $in: ["handphone", "laptop"]
       }
+   }
+})
+```
+
+### Element Operator
+|Operator|Keterangan|
+|---|---|
+|`$exists`|Menyatakan bahwa field tidak null|
+|`$type`|Menyatakan tipe data dari field (string/array)|
+
+```js
+//syntax
+db.<collection>.find({
+   field: {
+      $operator: value
+   }
+})
+```
+
+#### Contoh `$exists`
+```js
+// menampilkan document yang memiliki category
+db.products.find({
+   category: {
+      $exists: true
+   }
+})
+```
+
+#### Contoh `$type`
+```js
+db.products.find({
+   category: {
+      $type: "string"
+   }
+})
+
+db.products.find({
+   price: {
+      $type: ["int", "long"]
    }
 })
 ```
