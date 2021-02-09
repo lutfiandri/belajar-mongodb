@@ -436,3 +436,18 @@ db.products.find({
 ```
 
 ### Evaluation Query Operator
+
+- Akan dilakukan scanning satu per satu
+- Maka tidak direkomendasikan menggunakan ini dalam skala besar
+
+|Operator|Keterangan|
+|---|---|
+|`$expr`|Menggunakan agregation operation|
+|`$jsonSchema`|Validasi document sesuai dengan JSON Schema|
+|`$mod`|Menghitung modulo|
+|`$regex`|Mengambil document yang sesuai dengan regex (PCRE)|
+|`$text`|Melakukan pencarian dengan text|
+|`$where`|Mengambil document dengan JavaScript function|
+
+
+
