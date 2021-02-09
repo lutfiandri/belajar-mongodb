@@ -690,6 +690,8 @@ db.products.find({
 ```
 
 #### `$size`
+- Yang tidak memiliki field tsb., hasilnya false (size != 0).
+
 ```js
 // syntax
 db.<collection>.find({
@@ -722,5 +724,28 @@ db.products.find({
 	"category" : "computer",
 	"tags" : ["samsung", "monitor", "computer"]
 }
-
 ```
+### Projection Query Operator
+- [See Documentation](https://docs.mongodb.com/manual/reference/operator/projection/)
+- Projection adalah memilih field mana yang ingin kita ambil/hide
+- `db.collection.find(query, projection)`
+
+```js
+// syntax
+db.<collection>.find({
+   field: {
+      ...
+   }
+}, {
+   field1: 1, // include
+   field2: 0, // hide
+   ...
+})
+```
+|Operator|Keterangan|
+|---|---|
+|`$`|Limit array hanya mengambil data pertama array yang match dengan array operator|
+|`$elemMatch`|Limit array hanya mengambil data pertama yang match dengan kondisi query|
+|`$meta`|Mengembalikan informasi metadata yang didapat dari setiap matching document|
+|`$slice`|Limit size array yang diambil|
+
