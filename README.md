@@ -440,6 +440,8 @@ db.products.find({
 - Akan dilakukan scanning satu per satu
 - Maka tidak direkomendasikan menggunakan ini dalam skala besar
 
+[See Documentation](https://docs.mongodb.com/manual/reference/operator/query-evaluation/)
+
 |Operator|Keterangan|
 |---|---|
 |`$expr`|Menggunakan agregation operation|
@@ -449,5 +451,131 @@ db.products.find({
 |`$text`|Melakukan pencarian dengan text|
 |`$where`|Mengambil document dengan JavaScript function|
 
+#### `$expr`
+- [See Documentation](https://docs.mongodb.com/manual/reference/operator/query/expr/)
+- Menggunakan [Agregation Operation](https://docs.mongodb.com/manual/meta/aggregation-quick-reference/#aggregation-expressions)
+
+
+```js
+// syntax
+db.<collection>.find({
+   $expr: {
+      agregation operation here...
+   }
+})
+```
+
+```js
+// misal data
+db.createCollection('monthlyBudget')
+db.monthlyBudget.insertMany([
+   { "_id" : 1, "category" : "food", "budget": 400, "spent": 450 },
+   { "_id" : 2, "category" : "drinks", "budget": 100, "spent": 150 },
+   { "_id" : 3, "category" : "clothes", "budget": 100, "spent": 50 },
+   { "_id" : 4, "category" : "misc", "budget": 500, "spent": 300 },
+   { "_id" : 5, "category" : "travel", "budget": 200, "spent": 650 }
+])
+
+// query
+db.monthlyBudget.find({
+   $expr: { $gt: [ "$spent" , "$budget" ] }
+})
+
+// hasil
+{ "_id" : 1, "category" : "food", "budget" : 400, "spent" : 450 }
+{ "_id" : 2, "category" : "drinks", "budget" : 100, "spent" : 150 }
+{ "_id" : 5, "category" : "travel", "budget" : 200, "spent" : 650 }
+```
+
+#### `$jsonSchema`
+- [See Documentation](https://docs.mongodb.com/manual/reference/operator/query/jsonSchema/)
+- Validasi document sesuai dengan [JSON Schema](http://json-schema.org/)
+
+```js
+// syntax
+db.<collection>.find({
+   $jsonSchema: {
+      JSON schema here...
+   }
+})
+```
+
+#### `$mod`
+- [See Documentation](https://docs.mongodb.com/manual/reference/operator/query/mod/)
+- `field % divisor = remainder`
+
+```js
+// syntax
+db.<collection>.find({
+   field: {
+      $mod: [divisor, remainder]
+   }
+})
+```
+
+#### `$regex`
+- [See Documentation](https://docs.mongodb.com/manual/reference/operator/query/regex/)
+- [Latihan Regex](https://regexr.com/)
+
+```js
+// syntax
+db.<collection>.find({
+   field: {
+      $regex: /regex/,
+      $option: "<option>"
+   }
+})
+```
+
+#### `$text`
+- [See Documentation](https://docs.mongodb.com/manual/reference/operator/query/text/)
+
+```js
+// syntax
+db.<collection>.find({
+   $text: {
+      $search: "string",
+      $language: "string",           // optional
+      $caseSensitive: "boolean",     // optional
+      $diacriticSensitive: "boolean" // optional
+   }
+})
+```
+
+#### `$where`
+- [See Documentation](https://docs.mongodb.com/manual/reference/operator/query/where/)
+
+```js
+// syntax
+db.<collection>.find({
+   $where: function(){
+      return true;
+   }
+})
+```
+
+```js
+// misal data
+db.createCollection('players')
+db.players.insertMany([
+   { _id: 12378, name: "Steve", username: "steveisawesome", first_login: "2017-01-01" },
+   { _id: 2, name: "Anya", username: "anya", first_login: "2001-02-02" }
+])
+
+// query
+db.players.find({
+   $where: function(){
+      return (hex_md5(this.name) == "9b53e667f30cd329dca1ec9e6a83e994")
+   }
+})
+
+// hasil
+{
+   "_id" : 2,
+   "name" : "Anya",
+   "username" : "anya",
+   "first_login" : "2001-02-02"
+}
+```
 
 
