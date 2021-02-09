@@ -227,6 +227,8 @@ db.products.insertMany([
 
 `db.<collection>.find(query)`
 
+[See Documentation](https://docs.mongodb.com/manual/reference/operator/query/)
+
 > **tips**: tambahkan `.pretty()` agar mudah dibaca\
 > `db.<collection>.find(query).pretty()`
 
@@ -236,7 +238,7 @@ db.products.insertMany([
 - _select * from collection where \_id = 1_
   `db.<collection>.find(_id: 1)`
 
-### Comparison Operator
+### Comparison Query Operator
 |Operator|Keterangan|
 |---|---|
 |`$eq`|sama dengan|
@@ -320,7 +322,7 @@ db.products.find({
 })
 ```
 
-### Logical Operator
+### Logical Query Operator
 |Operator|Keterangan|
 |---|---|
 |`$and`|Logical **AND**, **true** jika semua **true**|
@@ -393,7 +395,7 @@ db.products.find({
 })
 ```
 
-### Element Operator
+### Element Query Operator
 |Operator|Keterangan|
 |---|---|
 |`$exists`|Menyatakan bahwa field tidak null|
@@ -432,3 +434,5 @@ db.products.find({
    }
 })
 ```
+
+### Evaluation Query Operator
